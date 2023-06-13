@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -24,9 +24,15 @@ const Employee = () => {
 
   return (
     <TabPanel value="2">
-      <Typography variant="h4" marginBottom={`15px`}>
-        Employee user list
-      </Typography>
+      <Box
+        display={`flex`}
+        alignItems={`center`}
+        justifyContent={`space-between`}
+        mb={`20px`}
+      >
+        <Typography variant="h4">Employee user list</Typography>
+        <Button variant="contained">Add User</Button>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
