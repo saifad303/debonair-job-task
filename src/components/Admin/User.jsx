@@ -7,9 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
+import MyModal from "../Modal/MyModal";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -33,7 +32,7 @@ const User = () => {
         mb={`20px`}
       >
         <Typography variant="h4">Admin user list</Typography>
-        <Button variant="contained">Add User</Button>
+        <MyModal></MyModal>
       </Box>
 
       <TableContainer component={Paper}>

@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Button, Typography } from "@mui/material";
+import MyModal from "../Modal/MyModal";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -31,7 +32,7 @@ const Employee = () => {
         mb={`20px`}
       >
         <Typography variant="h4">Employee user list</Typography>
-        <Button variant="contained">Add User</Button>
+        <MyModal></MyModal>
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
