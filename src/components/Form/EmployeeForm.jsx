@@ -12,15 +12,11 @@ import {
   Typography,
   makeStyles,
 } from "@mui/material";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import axios from "axios";
 import { UseInputField, Validation } from "../../hooks/UseInputField";
+import Swal from "sweetalert2";
 
-const EmployeeForm = () => {
+const EmployeeForm = ({ handleEmployeeModalClose }) => {
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [divisionId, setDivisionId] = useState(0);
@@ -48,7 +44,28 @@ const EmployeeForm = () => {
       district: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      axios
+        .post(
+          `http://59.152.62.177:8085/api/Employee/SaveEmployeeInformation`,
+          { ...values },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          handleEmployeeModalClose(false);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Employee Information has successfully entered.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
     },
     validationSchema,
   });

@@ -66,7 +66,9 @@ const MyModal = ({ isAdmin }) => {
             </Button>
           </Box>
           <Box sx={{ mt: 2 }}>
-            <EmployeeForm></EmployeeForm>
+            <EmployeeForm
+              handleEmployeeModalClose={handleEmployeeModalClose}
+            ></EmployeeForm>
           </Box>
         </Box>
       </Modal>
@@ -95,7 +97,9 @@ const MyModal = ({ isAdmin }) => {
             </Button>
           </Box>
           <Box sx={{ mt: 2 }}>
-            <AdminUserForm></AdminUserForm>
+            <AdminUserForm
+              handleAdminModalClose={handleAdminModalClose}
+            ></AdminUserForm>
           </Box>
         </Box>
       </Modal>

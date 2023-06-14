@@ -3,8 +3,12 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Box, Button } from "@mui/material";
 import { UseInputField, Validation } from "../../hooks/UseInputField";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const AdminUserForm = () => {
+const AdminUserForm = ({ handleAdminModalClose }) => {
   const validationSchema = Yup.object().shape({
     firstName: Validation(" Name Required"),
     lastName: Validation("Last Name Required"),
@@ -20,14 +24,46 @@ const AdminUserForm = () => {
       disvision: "",
       district: "",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values, { resetForm }) => {
+      axios
+        .post(
+          `http://59.152.62.177:8085/api/Employee/SaveEmployeeInformation`,
+          { ...values },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          handleAdminModalClose(false);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Admin Information has successfully entered.",
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        });
     },
     validationSchema,
   });
 
   return (
     <div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <form onSubmit={formik.handleSubmit}>
         <Box
           display={`flex`}
