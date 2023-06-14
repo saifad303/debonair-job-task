@@ -14,7 +14,7 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const User = () => {
+const User = ({ isAdmin }) => {
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
     createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
@@ -32,7 +32,7 @@ const User = () => {
         mb={`20px`}
       >
         <Typography variant="h4">Admin user list</Typography>
-        <MyModal></MyModal>
+        <MyModal isAdmin={isAdmin}></MyModal>
       </Box>
 
       <TableContainer component={Paper}>

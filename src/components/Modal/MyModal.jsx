@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import MyForm from "../Form/MyForm";
+import EmployeeForm from "../Form/EmployeeForm";
+import AdminUserForm from "../Form/AdminUserForm";
 
 const style = {
   position: "absolute",
@@ -17,19 +18,32 @@ const style = {
   p: 4,
 };
 
-const MyModal = () => {
-  const [open, setOpen] = useState(false);
+const MyModal = ({ isAdmin }) => {
+  const [isEmployeeOpen, setIsEmployeeOpen] = useState(false);
+  const [isAdminUserOpen, setIsAdminUserOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleEmployeeModalOpen = () => setIsEmployeeOpen(true);
+  const handleEmployeeModalClose = () => setIsEmployeeOpen(false);
+
+  const handleAdminModalOpen = () => setIsAdminUserOpen(true);
+  const handleAdminModalClose = () => setIsAdminUserOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained">
-        Add User
-      </Button>
+      {isAdmin || (
+        <Button onClick={handleEmployeeModalOpen} variant="contained">
+          Add Employee User
+        </Button>
+      )}
+
+      {isAdmin && (
+        <Button onClick={handleAdminModalOpen} variant="contained">
+          Add Admin User
+        </Button>
+      )}
+
       <Modal
-        open={open}
+        open={isEmployeeOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -41,14 +55,47 @@ const MyModal = () => {
             marginBottom={`30px`}
           >
             <Typography id="modal-modal-title" variant="h5" component="h2">
-              Add User Information
+              Add Employee User Information
             </Typography>
-            <Button onClick={handleClose} variant="contained" color="error">
+            <Button
+              onClick={handleEmployeeModalClose}
+              variant="contained"
+              color="error"
+            >
               Close
             </Button>
           </Box>
           <Box sx={{ mt: 2 }}>
-            <MyForm></MyForm>
+            <EmployeeForm></EmployeeForm>
+          </Box>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={isAdminUserOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            display={`flex`}
+            justifyContent={`space-between`}
+            alignItems={`center`}
+            marginBottom={`30px`}
+          >
+            <Typography id="modal-modal-title" variant="h5" component="h2">
+              Add Admin User Information
+            </Typography>
+            <Button
+              onClick={handleAdminModalClose}
+              variant="contained"
+              color="error"
+            >
+              Close
+            </Button>
+          </Box>
+          <Box sx={{ mt: 2 }}>
+            <AdminUserForm></AdminUserForm>
           </Box>
         </Box>
       </Modal>

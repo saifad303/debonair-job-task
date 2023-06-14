@@ -14,7 +14,7 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const Employee = () => {
+const Employee = ({ isAdmin }) => {
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
     createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
@@ -32,7 +32,7 @@ const Employee = () => {
         mb={`20px`}
       >
         <Typography variant="h4">Employee user list</Typography>
-        <MyModal></MyModal>
+        <MyModal isAdmin={isAdmin}></MyModal>
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
 import { useFormik } from "formik";
 import {
   Box,
   Button,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
+  makeStyles,
 } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -14,18 +18,30 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import axios from "axios";
+import { UseInputField, Validation } from "../../hooks/UseInputField";
 
-const MyForm = () => {
+const EmployeeForm = () => {
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [divisionId, setDivisionId] = useState(0);
   const [distId, setDistrictId] = useState(0);
 
+  const validationSchema = Yup.object().shape({
+    firstName: Validation(" Name Required"),
+    lastName: Validation("Last Name Required"),
+    divisionId: Yup.number()
+      .test("is-not-zero", "Value cannot be Empty", (value) => value !== 0)
+      .required(),
+    districeID: Yup.number()
+      .test("is-not-zero", "Value can not be empty", (value) => value !== 0)
+      .required(),
+  });
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
-      employeeType: "",
+      employeeType: "Employee",
       divisionId: divisionId,
       districeID: distId,
       disvision: "",
@@ -34,6 +50,7 @@ const MyForm = () => {
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
+    validationSchema,
   });
 
   const divisionIdHandler = (e, divID) => {
@@ -74,25 +91,26 @@ const MyForm = () => {
           alignItems={`center`}
           sx={{ gap: "20px" }}
         >
-          <TextField
+          <UseInputField
             id="firstName"
             name="firstName"
             label="First Name"
             fullWidth
             value={formik.values.name}
             onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.touched.firstName && formik.errors.firstName}
           />
-          <TextField
+
+          <UseInputField
             id="lastName"
             name="lastName"
             label="Last Name"
             fullWidth
             value={formik.values.name}
             onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.touched.lastName && formik.errors.lastName}
           />
         </Box>
         <Box
@@ -111,6 +129,12 @@ const MyForm = () => {
               name="disvision"
               value={formik.values.disvision}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.divisionId && formik.errors.divisionId
+                  ? true
+                  : false
+              }
             >
               {divisions.map((division, idx) => (
                 <MenuItem
@@ -122,6 +146,9 @@ const MyForm = () => {
                 </MenuItem>
               ))}
             </Select>
+            <Typography color="error">
+              {formik.touched.divisionId && formik.errors.divisionId}
+            </Typography>
           </Box>
           <Box width={"50%"}>
             <InputLabel id="demo-simple-select-label">District</InputLabel>
@@ -133,6 +160,11 @@ const MyForm = () => {
               name="district"
               value={formik.values.district}
               onChange={formik.handleChange}
+              error={
+                formik.touched.districeID && formik.errors.districeID
+                  ? true
+                  : false
+              }
             >
               {districts.map((district, idx) => (
                 <MenuItem
@@ -144,25 +176,11 @@ const MyForm = () => {
                 </MenuItem>
               ))}
             </Select>
+            <Typography color="error">
+              {formik.touched.districeID && formik.errors.districeID}
+            </Typography>
           </Box>
         </Box>
-        <FormControl sx={{ mt: "20px" }}>
-          <FormLabel id="demo-radio-buttons-group-label">User Type</FormLabel>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="female"
-            name="employeeType"
-            value={formik.values.employeeType}
-            onChange={formik.handleChange}
-          >
-            <FormControlLabel
-              label="Employee"
-              value="Employee"
-              control={<Radio />}
-            />
-            <FormControlLabel label="Admin" value="Admin" control={<Radio />} />
-          </RadioGroup>
-        </FormControl>
         <Box mt={3}>
           <Button variant="contained" color="primary" type="submit">
             Submit
@@ -173,4 +191,4 @@ const MyForm = () => {
   );
 };
 
-export default MyForm;
+export default EmployeeForm;
