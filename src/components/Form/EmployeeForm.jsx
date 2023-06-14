@@ -4,23 +4,22 @@ import { useFormik } from "formik";
 import {
   Box,
   Button,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Typography,
-  makeStyles,
 } from "@mui/material";
 import axios from "axios";
 import { UseInputField, Validation } from "../../hooks/UseInputField";
 import Swal from "sweetalert2";
+import useFetchUsers from "../../hooks/useFetchUsers";
 
 const EmployeeForm = ({ handleEmployeeModalClose }) => {
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [divisionId, setDivisionId] = useState(0);
   const [distId, setDistrictId] = useState(0);
+  const [, refetchUsersData] = useFetchUsers();
 
   const validationSchema = Yup.object().shape({
     firstName: Validation(" Name Required"),
@@ -58,12 +57,13 @@ const EmployeeForm = ({ handleEmployeeModalClose }) => {
         .then((res) => {
           console.log(res.data);
           handleEmployeeModalClose(false);
+          refetchUsersData();
           Swal.fire({
             position: "center",
             icon: "success",
             title: "Employee Information has successfully entered.",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 2500,
           });
         });
     },

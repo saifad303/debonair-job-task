@@ -32,14 +32,14 @@ const App = () => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab
-                onClick={() => showAdminHandler(true)}
                 label="User"
                 value="1"
+                onClick={() => showAdminHandler(true)}
               />
               <Tab
-                onClick={() => showAdminHandler(false)}
                 label="Employee"
                 value="2"
+                onClick={() => showAdminHandler(false)}
               />
             </TabList>
           </Box>

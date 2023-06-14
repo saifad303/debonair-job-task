@@ -7,12 +7,15 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useFetchUsers from "../../hooks/useFetchUsers";
 
 const AdminUserForm = ({ handleAdminModalClose }) => {
   const validationSchema = Yup.object().shape({
     firstName: Validation(" Name Required"),
     lastName: Validation("Last Name Required"),
   });
+
+  const [, refetchUsersData] = useFetchUsers();
 
   const formik = useFormik({
     initialValues: {
@@ -38,6 +41,7 @@ const AdminUserForm = ({ handleAdminModalClose }) => {
         .then((res) => {
           console.log(res.data);
           handleAdminModalClose(false);
+          refetchUsersData();
           Swal.fire({
             position: "center",
             icon: "success",
