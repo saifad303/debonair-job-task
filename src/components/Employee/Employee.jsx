@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TabPanel from "@mui/lab/TabPanel";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,22 +10,47 @@ import Paper from "@mui/material/Paper";
 import { Box, Button, Typography } from "@mui/material";
 import MyModal from "../Modal/MyModal";
 import useFetchUsers from "../../hooks/useFetchUsers";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Modal from "@mui/material/Modal";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const Employee = ({ isAdmin }) => {
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
+const Employee = ({ isAdmin }) => {
+  const navigate = useNavigate();
   const [users, refetchUsersData, isUsersLoading] = useFetchUsers();
-  console.log("From admin = ", users.readEmployeeData);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  if (isUsersLoading) {
+    return "Loading...";
+  }
+
+  const userDetailHandler = (e, empID) => {
+    navigate(`/user-detail/${empID}`);
+  };
+
+  const editShowHandler = (e, id, type, data) => {
+    e.preventDefault();
+
+    navigate(`/edit-user/${id}/${type}`, { state: { data: data } });
+  };
 
   return (
     <TabPanel value="2">
@@ -57,6 +82,18 @@ const Employee = ({ isAdmin }) => {
               >
                 District
               </TableCell>
+              <TableCell
+                sx={{ fontWeight: "bold", fontSize: "16px" }}
+                align="right"
+              >
+                User Detail
+              </TableCell>
+              <TableCell
+                sx={{ fontWeight: "bold", fontSize: "16px" }}
+                align="right"
+              >
+                Edit detail
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,6 +112,52 @@ const Employee = ({ isAdmin }) => {
                     </TableCell>
                     <TableCell align="right">{user.disvision}</TableCell>
                     <TableCell align="right">{user.district}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        onClick={(e) => userDetailHandler(e, user.empID)}
+                        variant="contained"
+                      >
+                        Detail
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        onClick={(e) =>
+                          editShowHandler(
+                            e,
+                            user.empID,
+                            user.employeeType,
+                            user
+                          )
+                        }
+                        variant="outlined"
+                      >
+                        Edit
+                      </Button>
+                      <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                      >
+                        <Box sx={style}>
+                          <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                          >
+                            Text in a modal
+                          </Typography>
+                          <Typography
+                            id="modal-modal-description"
+                            sx={{ mt: 2 }}
+                          >
+                            Duis mollis, est non commodo luctus, nisi erat
+                            porttitor ligula.
+                          </Typography>
+                        </Box>
+                      </Modal>
+                    </TableCell>
                   </TableRow>
                 );
               }

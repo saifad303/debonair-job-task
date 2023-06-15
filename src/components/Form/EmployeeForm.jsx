@@ -130,6 +130,7 @@ const EmployeeForm = ({ handleEmployeeModalClose }) => {
             helperText={formik.touched.lastName && formik.errors.lastName}
           />
         </Box>
+
         <Box
           mt={`20px`}
           display={`flex`}
@@ -198,6 +199,7 @@ const EmployeeForm = ({ handleEmployeeModalClose }) => {
             </Typography>
           </Box>
         </Box>
+
         <Box mt={3}>
           <Button variant="contained" color="primary" type="submit">
             Submit

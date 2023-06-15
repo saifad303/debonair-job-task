@@ -1,23 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useFetchUsers = () => {
+const useDivisions = () => {
   // const token = localStorage.getItem('access-token');
   const {
-    refetch: refetchUsersData,
-    data: users = [],
-    isLoading: isUsersLoading,
+    refetch: refetchDivisionsData,
+    data: divisions = [],
+    isLoading: isDivisionsLoading,
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://59.152.62.177:8085/api/Employee/EmployeeData`
+        `http://59.152.62.177:8085/api/Employee/Division`
       );
       return res.data;
     },
   });
 
-  return [users, refetchUsersData, isUsersLoading];
+  return [divisions, refetchDivisionsData, isDivisionsLoading];
 };
 
-export default useFetchUsers;
+export default useDivisions;

@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import EmployeeForm from "../Form/EmployeeForm";
 import AdminUserForm from "../Form/AdminUserForm";
+import EditAdminForm from "../../Pages/EditForm";
+import { useContextProvider } from "../../context/ContextProvider";
 
 const style = {
   position: "absolute",

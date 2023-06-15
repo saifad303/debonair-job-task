@@ -5,11 +5,13 @@ import * as Yup from "yup";
 export const Validation = (message) => Yup.string().required(message);
 
 export const UseInputField = (props) => {
-  const { id, name, label, value, onChange, error, helperText } = props;
+  const { id, name, label, value, onChange, error, helperText, defaultValue } =
+    props;
 
   return (
     <>
       <TextField
+        defaultValue={defaultValue || ""}
         id={id}
         fullWidth
         name={name}
